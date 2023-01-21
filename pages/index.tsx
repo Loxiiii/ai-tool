@@ -119,7 +119,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-row mt-5 ">
-      <div className="mr-5">What do you want to write?</div>
+      <div className="mr-5 font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">What do you want to write?</div>
       <div className="flex flex-row flex-start">
         {/* <div>Cover Letter</div>
         <div>Email</div> */}
