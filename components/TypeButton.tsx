@@ -13,6 +13,8 @@ const testRequest = () => {
     data: {
       prompt: 'Hello, nice to meet you! what is your name?',
     },
+  }).then((data) => {
+    console.log(data.data[0].text);
   });
 };
 
