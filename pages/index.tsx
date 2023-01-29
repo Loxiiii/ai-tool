@@ -10,6 +10,8 @@ export default function Home() {
   const [role, setRole] = useState('');
   const [info, setInfo] = useState('');
   const [spice, setSpice] = useState(1);
+  const [length, setLength] = useState(300);
+  const [language, setLanguage] = useState('English');
 
   const handleFullNameChange = (e) => {
     setFullName(e.target.value);
@@ -31,6 +33,14 @@ export default function Home() {
     setSpice(e.target.value);
   };
 
+  const handleLengthChange = (e) => {
+    setLength(e.target.value);
+  };
+
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
   const handleSubmitCoverLetter = (e) => {
     e.preventDefault();
     axios({
@@ -42,6 +52,8 @@ export default function Home() {
         role,
         info,
         spice,
+        length,
+        language,
       },
     }).then((data) => {
       console.log(data.data[0].text);
@@ -135,16 +147,24 @@ export default function Home() {
                   />
                 </div>
               </div>
-              {/* <div className="md:flex md:items-center mb-6">
+              <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                   <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                    Spice 🔥
+                    Number of words
                   </label>
                 </div>
                 <div className="md:w-2/3">
-                  <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder="Jane Doe" />
+                  <input
+                    onChange={(e) => {
+                      handleLengthChange(e);
+                    }}
+                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                    id="inline-full-name"
+                    type="text"
+                    placeholder="300"
+                  />
                 </div>
-              </div> */}
+              </div>
               <div className="md:flex md:items-center mb-6">
                 <div className="md:w-1/3">
                   <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
@@ -170,6 +190,30 @@ export default function Home() {
                       <option>8</option>
                       <option>9</option>
                       <option>10</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div className="md:flex md:items-center mb-6">
+                <div className="md:w-1/3">
+                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
+                    Language
+                  </label>
+                </div>
+                <div className="md:w-2/3">
+                  <div className="relative">
+                    <select
+                      onChange={(e) => {
+                        handleLanguageChange(e);
+                      }}
+                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 placeholder:5"
+                    >
+                      <option>English</option>
+                      <option>Spanish</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>

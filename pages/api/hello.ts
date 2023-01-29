@@ -27,15 +27,32 @@ const openai = new OpenAIApi(configuration);
 export default function handleTest(req, res) {
   // console.log(req.body.prompt);
   const temperature = Number(req.body.spice) / 10;
-  openai.createCompletion({
-    model: 'text-davinci-003',
-    // prompt: req.body.prompt,
-    // eslint-disable-next-line quotes
-    prompt: `Write a cover letter for the company ${req.body.company}, specifically for the role ${req.body.role}. My name is ${req.body.fullName}. ${req.body.info}. Mention how aligned I am with their values. express how their services would have been extremely useful for my past experience`,
-    max_tokens: 400,
-    temperature,
-  }).then((data) => {
-    console.log(data.data.choices);
-    res.send(data.data.choices);
-  });
+  const length = Math.floor(Number(req.body.length) / 1.333);
+  if (req.body.language === 'English') {
+    openai.createCompletion({
+      model: 'text-davinci-003',
+      // prompt: req.body.prompt,
+      // eslint-disable-next-line quotes
+      prompt: `Write a cover letter for the company ${req.body.company}, specifically for the role ${req.body.role}. My name is ${req.body.fullName}. Please, rephrase the following information and make it look interesting: ${req.body.info}. Mention how aligned I am with their values. Evaluate what this company does and express how valuable it is are and how much I appreciate it, trying to link it to my past experience. If there is no relationship, just show how useful they are and make it in ${req.body.language}`,
+      max_tokens: length,
+      temperature,
+    }).then((data) => {
+      console.log(data.data.choices);
+      res.send(data.data.choices);
+    });
+  }
+
+  // if (req.body.language === 'Spanish') {
+  //   openai.createCompletion({
+  //     model: 'text-davinci-003',
+  //     // prompt: req.body.prompt,
+  //     // eslint-disable-next-line quotes
+  //     prompt: `Escribe una carta de presentación para la empresa ${req.body.company}, concretamente para el puesto ${req.body.role}. Mi nombre es ${req.body.fullName}. Por favor, reformula la siguiente información y haz que parezca interesante: ${req.body.info}. Menciona lo alineado que estoy con sus valores. Evalúa lo que hace esta empresa y expresa lo valiosa que es y lo mucho que la aprecio, intentando relacionarlo con mi experiencia pasada. Si no hay relación, basta con mostrar lo útiles que son.`,
+  //     max_tokens: length,
+  //     temperature,
+  //   }).then((data) => {
+  //     console.log(data.data.choices);
+  //     res.send(data.data.choices);
+  //   });
+  // }
 }
