@@ -261,17 +261,24 @@ export default function Home() {
   showResult && (
     <div>
       {
-        responseParagraphs.map((p, i) => (
-          <p
-            key={i}
-            style={{
-              visibility: i <= currentParagraph ? 'visible' : 'hidden',
-              animation: `fade-in 1s ${animationIndex * 0.5}s ease-out forwards`,
-            }}
-          >
-            {p}
-          </p>
-        ))
+        responseParagraphs.map((p, i) => {
+          p.concat('\n\n');
+
+          return (
+            <div>
+              <p
+                key={i}
+                style={{
+                  visibility: i <= currentParagraph ? 'visible' : 'hidden',
+                  animation: `fade-in 1s ${animationIndex * 0.5}s ease-out forwards`,
+                }}
+              >
+                {p}
+              </p>
+              <p>&nbsp;</p>
+            </div>
+          );
+        })
       }
     </div>
   )
