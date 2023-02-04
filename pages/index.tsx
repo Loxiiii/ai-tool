@@ -4,7 +4,10 @@ import TypeButton from '../components/TypeButton.tsx';
 
 export default function Home() {
   const [showCover2, setShowCover2] = useState(true);
-  const [result, setResult] = useState('');
+  const [showResult, setShowResult] = useState(false);
+  const [responseParagraphs, setResponseParagraphs] = useState([]);
+  const [currentParagraph, setCurrentParagraph] = useState(0);
+  const [animationIndex, setAnimationIndex] = useState(0);
   const [fullName, setFullName] = useState('');
   const [company, setCompany] = useState('');
   const [role, setRole] = useState('');
@@ -56,23 +59,34 @@ export default function Home() {
         language,
       },
     }).then((data) => {
-      console.log(data.data[0].text);
+      setShowResult(true);
+      const resParagraphs = data.data[0].text.split('\n').filter(Boolean);
+      setResponseParagraphs(resParagraphs);
     });
   };
+
+  useEffect(() => {
+    if (currentParagraph < responseParagraphs.length) {
+      setTimeout(() => {
+        setAnimationIndex(animationIndex + 1);
+        setCurrentParagraph(currentParagraph + 1);
+      }, (currentParagraph + 1) * 1000);
+    }
+  }, [currentParagraph, responseParagraphs.length, animationIndex]);
 
   return (
     <div>
       <div className="flex flex-row mt-5 max-w-3xl my-0 mx-20">
         <div className="mr-5 font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 content-center">What do you want to write?</div>
-        <div className="flex flex-row flex-start">
+        {/* <div className="flex flex-row flex-start">
           <TypeButton text="Cover Letter" />
           <TypeButton text="Email" />
-        </div>
+        </div> */}
       </div>
       { /* Show cover 2 */
         showCover2
         && (
-          <div className="max-w-3xl mx-20">
+          <div className="w-1/3 float-left mx-20">
             <div className="font-extrabold text-transparent text-xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Please fill in the following:</div>
             <form className="w-full max-w-sm bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 my-4">
               <div className="md:flex md:items-center mb-6">
@@ -239,9 +253,30 @@ export default function Home() {
             </form>
 
           </div>
-
         )
       }
+      {' '}
+
+      {
+  showResult && (
+    <div>
+      {
+        responseParagraphs.map((p, i) => (
+          <p
+            key={i}
+            style={{
+              visibility: i <= currentParagraph ? 'visible' : 'hidden',
+              animation: `fade-in 1s ${animationIndex * 0.5}s ease-out forwards`,
+            }}
+          >
+            {p}
+          </p>
+        ))
+      }
+    </div>
+  )
+}
+
     </div>
   );
 }
