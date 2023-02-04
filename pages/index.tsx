@@ -259,7 +259,7 @@ export default function Home() {
 
       {
   showResult && (
-    <div className="w-5/7 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="w-5/7 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-5">
       {
         responseParagraphs.map((p, i) => {
           p.concat('\n\n');
