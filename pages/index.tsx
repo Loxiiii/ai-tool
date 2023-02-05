@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
+import { Grid } from 'react-loader-spinner';
 import TypeButton from '../components/TypeButton.tsx';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [spice, setSpice] = useState(1);
   const [length, setLength] = useState(300);
   const [language, setLanguage] = useState('English');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFullNameChange = (e) => {
     setFullName(e.target.value);
@@ -46,6 +48,7 @@ export default function Home() {
 
   const handleSubmitCoverLetter = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     axios({
       method: 'post',
       url: '/api/hello',
@@ -59,6 +62,7 @@ export default function Home() {
         language,
       },
     }).then((data) => {
+      setIsLoading(false);
       setShowResult(true);
       const resParagraphs = data.data[0].text.split('\n').filter(Boolean);
       setResponseParagraphs(resParagraphs);
@@ -83,7 +87,7 @@ export default function Home() {
           <TypeButton text="Email" />
         </div> */}
       </div>
-      <div>
+      <div className="flex flex-row">
         { /* Show cover 2 */
           showCover2
           && (
@@ -257,8 +261,25 @@ export default function Home() {
           )
         }
         {
+
+          isLoading && (
+            <div className="w-3/5 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 grid h-screen place-items-center max-h-screen-80">
+              <div>
+                <Grid
+                  height="50"
+                  width="50"
+                  radius="9"
+                  color="#C084FC"
+                  ariaLabel="three-dots-loading"
+                />
+
+              </div>
+            </div>
+          )
+        }
+        {
   showResult && (
-    <div className="w-3/5 float-right bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-5">
+    <div className="w-3/5 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       {
         responseParagraphs.map((p, i) => {
           p.concat('\n\n');
