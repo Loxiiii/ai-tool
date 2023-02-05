@@ -86,7 +86,7 @@ export default function Home() {
       { /* Show cover 2 */
         showCover2
         && (
-          <div className="w-1/3 float-left mx-20">
+          <div className="w-1/3 float-left ml-20">
             <div className="font-extrabold text-transparent text-xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Please fill in the following:</div>
             <form className="w-full max-w-sm bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 my-4">
               <div className="md:flex md:items-center mb-6">
@@ -259,19 +259,26 @@ export default function Home() {
 
       {
   showResult && (
-    <div>
+    <div className="w-5/7 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-5">
       {
-        responseParagraphs.map((p, i) => (
-          <p
-            key={i}
-            style={{
-              visibility: i <= currentParagraph ? 'visible' : 'hidden',
-              animation: `fade-in 1s ${animationIndex * 0.5}s ease-out forwards`,
-            }}
-          >
-            {p}
-          </p>
-        ))
+        responseParagraphs.map((p, i) => {
+          p.concat('\n\n');
+
+          return (
+            <div>
+              <p
+                key={i}
+                style={{
+                  visibility: i <= currentParagraph ? 'visible' : 'hidden',
+                  animation: `fade-in 1s ${animationIndex * 0.5}s ease-out forwards`,
+                }}
+              >
+                {p}
+              </p>
+              <p>&nbsp;</p>
+            </div>
+          );
+        })
       }
     </div>
   )
